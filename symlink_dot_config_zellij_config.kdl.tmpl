@@ -1,0 +1,5 @@
+{{ if eq .chezmoi.os "windows" }}
+{{ .chezmoi.homeDir }}/AppData/Roaming/Zellij/config/config.kdl
+{{ else }}
+{{ .chezmoi.homeDir }}/.config/zellij/config.kdl
+{{ end }}

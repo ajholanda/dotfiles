@@ -1,0 +1,9 @@
+{{ $zellijPath := "" }}
+{{ if eq .chezmoi.os "windows" }}
+{{   $zellijPath = ".config/zellij/config.kdl" }} 
+{{ else }}
+{{   $zellijPath = ".config/zellij/config.kdl" }}
+{{ end }}
+
+[data]
+    zellijPath = {{ $zellijPath | quote }}
