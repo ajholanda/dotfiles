@@ -1,0 +1,33 @@
+- name: Setup a basic developer environment
+  hosts: localhost
+
+  tasks:
+    - name: Include tasks/install_packages.yml
+      ansible.builtin.include_tasks: "tasks/{{ item }}.yml"
+      loop:
+        - packages
+        - services
+      tags:
+        - packages
+        - services
+
+    - name: Set some environment variables
+      become: false
+      ansible.builtin.lineinfile:
+        path: ~/.bashrc
+        regexp: "^{{ item }}"
+        line: "{{ item }}:$PATH"
+      loop:
+        - "export PATH=$HOME/bin" 
+        - "export PATH=$HOME/.cargo/bin"
+        - "export PATH=$HOME/.local/bin"
+      tags: env
+
+  roles:
+    - role: ajholanda.googlechrome
+      tags: googlechrome
+    - role: ajholanda.vscode
+      tags: vscode
+    - role: ajholanda.x2goclient
+      tags: x2goclient
+

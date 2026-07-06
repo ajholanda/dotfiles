@@ -1,0 +1,11 @@
+---
+- name: Enable and start services
+  ansible.builtin.service:
+    name: "{{ srv_item }}"
+    enabled: true
+    state: started
+  loop:
+    - bluetooth
+  loop_control:
+    loop_var: srv_item
+  tags: services

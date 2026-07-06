@@ -1,0 +1,12 @@
+- name: Install core packages
+  ansible.builtin.package:
+    name:
+      - cargo
+      - g++
+      - gcc
+      - gdb
+      - emacs
+      - firefox
+      - pipewire-audio
+      - wget
+  tags: packages
