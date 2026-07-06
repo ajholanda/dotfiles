@@ -13,3 +13,22 @@
       - pipewire-audio
       - wget
   tags: packages
+
+- name: Install packages using Snap
+  community.general.snap:
+    name:
+      - obsidian
+    classic: true
+  tags: packages
+
+- name: Install Rust packages
+  community.general.cargo:
+    name:
+      - ripgrep
+      - zellij
+  tags: packages
+
+- name: Install Claude Code using the native installer
+  become: false
+  ansible.builtin.shell: curl -fsSL https://claude.ai/install.sh | bash
+  tags: packages
