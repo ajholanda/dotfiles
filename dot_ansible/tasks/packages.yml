@@ -2,11 +2,14 @@
   ansible.builtin.package:
     name:
       - cargo
+      - emacs
+      - firefox
       - g++
       - gcc
       - gdb
-      - emacs
-      - firefox
+      - htop
+      - nodejs
+      - npm
       - pipewire-audio
       - wget
   tags: packages
