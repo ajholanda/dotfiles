@@ -14,6 +14,7 @@
       - wget
   tags: packages
 
+# -------- Snap packages --------
 - name: Install packages using Snap
   community.general.snap:
     name:
@@ -21,6 +22,7 @@
     classic: true
   tags: packages
 
+# -------- Rust packages --------
 - name: Install Rust packages
   community.general.cargo:
     name:
@@ -28,7 +30,16 @@
       - zellij
   tags: packages
 
+# -------- Claude Code -------
+- name: Check if Claude Code is installed
+  become: false
+  ansible.builtin.stat:
+    path: "~/.local/bin/claude"
+  register: ret
+  tags: packages
+
 - name: Install Claude Code using the native installer
   become: false
   ansible.builtin.shell: curl -fsSL https://claude.ai/install.sh | bash
+  when: not ret.stat.exists
   tags: packages
