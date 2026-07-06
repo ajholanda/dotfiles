@@ -20,6 +20,7 @@
       loop:
         - "export PATH=$HOME/bin" 
         - "export PATH=$HOME/.cargo/bin"
+        - "export PATH=$HOME/.elan/bin"
         - "export PATH=$HOME/.local/bin"
       tags: env
 

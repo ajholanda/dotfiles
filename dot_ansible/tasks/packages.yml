@@ -43,3 +43,28 @@
   ansible.builtin.shell: curl -fsSL https://claude.ai/install.sh | bash
   when: not ret.stat.exists
   tags: packages
+
+# -------- Lean --------
+- name: Check if Elan is installed
+  become: false
+  ansible.builtin.stat:
+    path: "~/.elan/bin/elan"
+  register: ret
+  tags: packages
+
+- name: Download elan installer
+  become: false
+  ansible.builtin.get_url:
+    url: https://elan.lean-lang.org/elan-init.sh
+    dest: /tmp/elan-init.sh
+    mode: "0755"
+  when: not ret.stat.exists
+  tags: packages
+
+- name: Install elan
+  become: false
+  ansible.builtin.command:
+    cmd: /tmp/elan-init.sh -y
+    creates: "{{ ansible_env.HOME }}/.elan/bin/elan"
+  when: not ret.stat.exists
+  tags: packages
