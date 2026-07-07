@@ -1,0 +1,51 @@
+---
+- name: Install rclone
+  ansible.builtin.apt:
+    name: rclone
+  tags: rclone
+
+- name: Create user systemd directory
+  become: false
+  ansible.builtin.file:
+    path: "~/.config/systemd/user"
+    state: directory
+    mode: "0755"
+  tags: rclone
+
+- name: Install rclone mount service
+  become: false
+  ansible.builtin.copy:
+    dest: "~/.config/systemd/user/rclone-gdrive.service"
+    mode: "0644"
+    content: |
+      [Unit]
+      Description=Rclone Mount Google Drive
+      After=network-online.target
+      Wants=network-online.target
+
+      [Service]
+      Type=notify
+      ExecStart=/usr/bin/rclone mount gdrive: %h/GoogleDrive --vfs-cache-mode=full --dir-cache-time=72h --poll-interval=1m
+      ExecStop=/bin/fusermount3 -u %h/GoogleDrive
+      Restart=on-failure
+
+      [Install]
+      WantedBy=default.target
+  tags: rclone
+
+- name: Reload user systemd
+  become: false
+  ignore_errors: true
+  ansible.builtin.command: systemctl --user daemon-reload
+  changed_when: false
+  tags: rclone
+
+- name: Enable and start rclone service
+  ignore_errors: true
+  become: false
+  ansible.builtin.systemd_service:
+    name: rclone-gdrive.service
+    scope: user
+    enabled: true
+    state: started
+  tags: rclone
