@@ -7,9 +7,12 @@
       loop:
         - packages
         - services
+        - rclone
       tags:
         - packages
         - services
+        - rclone
+      when: ansible_facts['os_family'] == "Debian"
 
     - name: Set some environment variables
       become: false
@@ -23,6 +26,7 @@
         - "export PATH=$HOME/.elan/bin"
         - "export PATH=$HOME/.local/bin"
       tags: env
+      when: ansible_facts['os_family'] == "Debian"
 
   roles:
     - role: ajholanda.googlechrome
