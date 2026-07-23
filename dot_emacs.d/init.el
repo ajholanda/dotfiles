@@ -19,6 +19,8 @@
 ;; Files handling
 (require 'init-files)
 
+(require 'init-finance)
+
 ;; Versioning
 (require 'init-git)
 
